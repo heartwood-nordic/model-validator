@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -14,9 +15,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4" style={{ background: "var(--bg-eggshell)", color: "var(--ink)" }}>
-      <img
+      <Image
         src="/Heartwood_Logo_Sand.png"
         alt="Heartwood Logo"
+        width={256}
+        height={256}
         className="mb-12 w-64 h-auto drop-shadow-lg"
         style={{ filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.08))" }}
       />

@@ -215,7 +215,6 @@ export default function Home() {
   const [openGeometrical, setOpenGeometrical] = useState(false);
   const [openData, setOpenData] = useState(false);
   const [openModelValidation, setOpenModelValidation] = useState(false);
-  const [openReport, setOpenReport] = useState(false);
   const [activeTab, setActiveTab] = useState<'checks' | 'reports' | 'quotation'>('checks');
   const [openDetails, setOpenDetails] = useState<Set<string>>(new Set());
 
