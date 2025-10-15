@@ -1,5 +1,5 @@
 # Product Vision & Business Strategy
-## CLT Model Validation & Automation Platform
+## CLT-Optimizer: Model Validation & Automation Platform
 
 **Last Updated:** January 2025  
 **Timeline:** September 2025 Target  
@@ -219,10 +219,10 @@ An automated validation and quotation platform that integrates directly into exi
    ↓ Approve for production
 ```
 
-#### New Workflow (With TimberCheck)
+#### New Workflow (With CLT-Optimizer)
 ```
 1. PROJECT INTAKE
-   ↓ Upload IFC to TimberCheck OR connect via Speckle
+   ↓ Upload IFC to CLT-Optimizer OR connect via Speckle
    ↓ System detects what's available
    
 2. INSTANT PRELIMINARY QUOTE (5 minutes)
@@ -236,7 +236,7 @@ An automated validation and quotation platform that integrates directly into exi
    
 4. PRODUCTION DRAWINGS (2-4 weeks → 1-2 weeks)
    ↓ Import all IFC files into HSBcad
-   ↓ **Run comprehensive validation in TimberCheck**
+   ↓ **Run comprehensive validation in CLT-Optimizer**
    ↓ Automated clash detection (architect + MEP + electrical)
    ↓ CLT-specific checks (classification, numbering, etc.)
    ↓ Fix issues before external review
@@ -861,11 +861,11 @@ An automated validation and quotation platform that integrates directly into exi
 
 ### Naming Suggestions
 
-#### Option 1: **TimberCheck**
+#### Option 1: **CLT-Optimizer** (Current Working Name)
 - Clear, descriptive
+- Industry-specific
 - Easy to remember
-- Domain available: timbercheck.io
-- Tagline: "Quality assurance for timber construction"
+- Tagline: "Optimize your CLT workflow"
 
 #### Option 2: **CLTFlow**
 - Emphasizes workflow
@@ -891,7 +891,7 @@ An automated validation and quotation platform that integrates directly into exi
 - Platform feel
 - Tagline: "Build better with confidence"
 
-**Recommendation:** **TimberCheck** or **CLTFlow**
+**Current:** **CLT-Optimizer** (working name, may rebrand later)
 - Clear value proposition
 - Industry-relevant
 - Easy to explain
@@ -929,9 +929,9 @@ An automated validation and quotation platform that integrates directly into exi
 - Add "Technologies" for clarity
 - Easier transition
 
-**Recommendation:** **Heartwood Technologies** (short-term) → **TimberCheck** (product brand)
+**Recommendation:** **Heartwood Technologies** (short-term) → **CLT-Optimizer** (product brand)
 - Company: Heartwood Technologies (parent company)
-- Product: TimberCheck (the platform)
+- Product: CLT-Optimizer (the platform)
 - Allows for future products under Heartwood umbrella
 
 ---
@@ -980,8 +980,8 @@ An automated validation and quotation platform that integrates directly into exi
 1. **Pricing Model:** Per-project vs. subscription?
    - **Recommendation:** Start with per-project (€75), move to subscription at 5 customers
 
-2. **Brand Name:** Keep "Model Validator" or rebrand?
-   - **Recommendation:** Rebrand to "TimberCheck" by March
+2. **Brand Name:** Keep "CLT-Optimizer" or rebrand?
+   - **Recommendation:** Evaluate final name by March (TimberCheck, CLTFlow, or keep CLT-Optimizer)
 
 3. **Speckle Partnership:** When to approach?
    - **Recommendation:** February, after CLT-Denmark metrics
