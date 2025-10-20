@@ -1,9 +1,9 @@
 # Product Vision & Business Strategy
 ## CLT-Optimizer: Model Validation & Automation Platform
 
-**Last Updated:** January 2025  
+**Last Updated:** January 17, 2025  
 **Timeline:** September 2025 Target  
-**Status:** MVP Development Phase
+**Status:** MVP Development Phase (Pain Points Clarified - Awaiting CLT-Denmark Data)
 
 ---
 
@@ -65,18 +65,29 @@ We are building an **automated CLT (Cross-Laminated Timber) model validation and
 - Fire safety compliance
 - Not always required (depends on project scope)
 
-**Step 2: Production Drawings (HSBcad)**
+**Step 2: Production Drawings (HSBcad)** (Is this when CLT Denmark builds the first model?)
 1. Import architect IFC + MEP IFC + electrical IFC
 2. Adapt and coordinate all disciplines
-3. **Internal QA of IFC file** (clash detection in BIM Vision)
+3. **Internal QA in BIM Vision** [**PROCESS TBD - SEE QUESTIONS**]
+   - Manual visual inspection for geometric clashes
+   - Manual spot-checking of element properties
+   - [**TIME & COMPREHENSIVENESS TBD**]
 4. External review with architect/engineer
 5. Update IFC based on feedback
 6. Send to KLH and glulam provider
-7. **KLH imports to their software** (no responsibility for geometric errors)
-8. **Final review by CLT-Denmark** (last chance to catch errors)
-9. Approve for production
+7. **KLH imports to their HSBcad** 
+   - Designs cutouts/details for their specific tools
+   - Performs SOME validation (extent unclear)
+   - Does NOT perform comprehensive clash detection
+   - Sends back errors found → rework cycle begins
+8. **Rework cycle(s)** [**FREQUENCY & TIME TBD - SEE QUESTIONS**]
+   - Fix issues in HSBcad
+   - Re-export and resend to KLH
+   - Repeat until approved
+9. **Final review by CLT-Denmark** (last chance to catch errors)
+10. Approve for production
 
-**Time:** 2-4 weeks per project
+**Time:** 2-4 weeks per project (+ rework cycles if errors found)
 
 #### Phase 4: Delivery & Assembly
 - CLT-Denmark delivers 95% of projects with:
@@ -88,61 +99,303 @@ We are building an **automated CLT (Cross-Laminated Timber) model validation and
 
 ### Critical Pain Points Identified
 
-1. **Preliminary Quote Bottleneck** 🔴 HIGHEST IMPACT
+#### 1. **Preliminary Quote Bottleneck** 🔴 HIGHEST IMPACT
    - **Problem:** 4-8 hours per quote, many projects never proceed
+   - **Current Process:** Manual quantity takeoff from 2D/3D models → Excel calculations → pricing
    - **Cost:** Wasted engineering time on non-converting leads
    - **Impact:** Slow response time = lost competitive advantage
-   - **Our Solution:** Instant preliminary quotes from IFC upload
+   - **Our Solution:** Instant preliminary quotes from IFC upload (5 minutes vs 4-8 hours)
 
-2. **Manual Quantity Takeoff** 🔴 HIGH IMPACT
-   - **Problem:** Manual counting of m³ glulam, m² CLT, brackets
+#### 2. **Manual Quantity Takeoff Errors** 🔴 HIGH IMPACT
+   - **Problem:** Manual counting of m³ glulam, m² CLT, brackets from models
+   - **Current Process:** Designer visually inspects model, manually extracts quantities
    - **Cost:** Human error in quantities = pricing mistakes
    - **Impact:** Under-quote = lost profit, over-quote = lost project
-   - **Our Solution:** Automated quantity extraction from model
+   - **Our Solution:** Automated quantity extraction from model data
 
-3. **Internal QA Gaps** 🟡 MEDIUM IMPACT
-   - **Problem:** Using BIM Vision for clash detection only
-   - **Cost:** Geometric errors not caught until KLH review
-   - **Impact:** Rework, delays, reputation damage
-   - **Our Solution:** Comprehensive validation before sending to KLH
+#### 3. **Manual Clash Detection (CLT + Glulam)** 🟡 MEDIUM-HIGH IMPACT
+   - **Problem:** Manual visual inspection in BIM Vision to find geometric clashes
+   - **Current Process:** 
+     - Export HSBcad design to IFC
+     - Open in BIM Vision
+     - Manually rotate around model looking for clashes between:
+       - CLT panel vs CLT panel
+       - Glulam beam/column vs CLT panel
+       - Glulam vs Glulam
+     - Takes [**TIME TBD - CLARIFY WITH CLT-DENMARK**]
+   - **What Gets Missed:** Subtle clashes, overlapping elements in complex areas
+   - **Cost:** Errors reach KLH or discovered on-site
+   - **Impact:** Rework cycle with KLH (emails back and forth, redesign, resubmit)
+   - **Our Solution:** Automated geometric clash detection with 3D highlighting of issues
 
-4. **No Geometric Responsibility from KLH** 🟡 MEDIUM IMPACT
-   - **Problem:** KLH doesn't take responsibility for geometric mistakes
-   - **Cost:** CLT-Denmark bears all risk of errors
-   - **Impact:** Expensive fixes if errors reach production
-   - **Our Solution:** Catch errors before KLH sees them
+#### 4. **Critical Metadata Validation Missing** 🔴 HIGH IMPACT  
+   - **Problem:** No automated checks for element properties that cause production/site issues
+   - **Current Process:** Manual spot-checking of properties in BIM Vision (inconsistent)
+   - **Common Errors:**
+     - **Position Numbers:** Wrong, duplicated, or nonsensical numbering
+     - **Surface Quality:** Specified on wrong side of element (expensive if wrong)
+     - **Element Classification:** Wall marked as Roof, Floor marked as Wall
+     - **Panel Build-up:** Missing or invalid configuration
+     - **Coating Specification:** Missing or incorrect
+     - **Size Constraints:** Elements too large to manufacture
+   - **Real Example:** Position numbers made no sense on delivered elements → site delays
+     - Workers couldn't match physical elements to assembly drawings
+     - Had to manually identify each element on-site
+     - Assembly sequence completely disrupted
+   - **Cost:** 
+     - **Wrong surface quality:** Must reorder entire element (expensive premium material wasted)
+     - **Wrong position numbers:** Site delays, labor costs multiply
+     - **Invalid sizes:** Production rejection, full redesign needed
+   - **Impact:** On-site chaos, production rejections, expensive rework
+   - **Our Solution:** Automated validation of ALL metadata against manufacturing rules
 
-5. **Multi-Discipline Coordination** 🟡 MEDIUM IMPACT
-   - **Problem:** Manual coordination of architect + MEP + electrical IFC
-   - **Cost:** Clashes discovered late in process
-   - **Impact:** Design changes, schedule delays
-   - **Our Solution:** Automated clash detection across all disciplines
+#### 5. **KLH Assumes Model is Correct** 🟡 MEDIUM IMPACT
+   - **Problem:** KLH imports model into HSBcad and optimizes for production WITHOUT comprehensive validation
+   - **Current Process:**
+     - CLT-Denmark sends IFC to KLH
+     - KLH imports to their HSBcad
+     - KLH designs cutouts/details for THEIR specific tools
+     - KLH performs SOME validation (not automated clash detection)
+     - If errors found: Email CLT-Denmark → "We cannot do this, ask client for approval or redesign"
+   - **What KLH Finds:**
+     - Geometric clashes between CLT elements
+     - Clashes between glulam and CLT
+     - Cutouts/openings that can't be manufactured with their tools
+   - **Cost:** Back-and-forth email cycles, redesign time, project delays
+   - **Impact:** [**REWORK TIME TBD - CLARIFY WITH CLT-DENMARK**]
+   - **Our Solution:** "KLH-Ready" certification - catch errors BEFORE sending to KLH
 
-6. **Inconsistent Input Quality** 🟢 LOW IMPACT (but frustrating)
+#### 6. **Multi-Discipline Coordination** ⚠️ IMPACT UNCLEAR - NEEDS CLARIFICATION
+   - **Problem:** [**TO BE CLARIFIED WITH CLT-DENMARK**]
+   - **Questions:**
+     - Do you check MEP/electrical models against CLT model?
+     - If yes, when and how? (BIM Vision? HSBcad? Manual overlay?)
+     - If no, who is responsible for these clashes?
+     - How often are MEP clashes discovered on-site?
+   - **Potential Solution:** Automated cross-discipline clash detection (CLT vs MEP vs Electrical)
+
+#### 7. **Inconsistent Input Quality** 🟢 LOW IMPACT (but frustrating)
    - **Problem:** Projects arrive with varying levels of detail
    - **Cost:** Time spent requesting missing information
    - **Impact:** Delayed quote delivery
    - **Our Solution:** Clear checklist of what's needed for accurate quote
 
-### Cost of Current Approach
+### Cost of Current Approach ⚠️ ESTIMATES - TO BE VALIDATED WITH CLT-DENMARK
 
-**Per Project:**
+**Per Project (Estimated):**
 - **Preliminary Quote:** 4-8 hours @ €75/hour = €300-600
-- **Internal QA:** 2-4 hours @ €75/hour = €150-300
-- **Rework from errors:** 4-20 hours @ €75/hour = €300-1,500
-- **Total:** €750-2,400 per project
+- **Internal QA (Clash + Metadata):** [**TIME TBD**] @ €75/hour = [**COST TBD**]
+- **Rework from KLH feedback:** [**TIME TBD**] @ €75/hour = [**COST TBD**]
+- **On-site error delays:** [**COST TBD**] (labor downtime, identification time)
+- **Material re-orders (wrong surface quality):** [**COST TBD**] per element
+- **Total:** [**TO BE CALCULATED AFTER CLARIFICATION**]
 
-**Annual (50 projects):**
+**Annual (Estimated 50 projects):**
 - **Quote time:** €15,000-30,000 (many quotes don't convert)
-- **QA time:** €7,500-15,000
-- **Error rework:** €15,000-75,000
-- **Total:** €37,500-120,000 in preventable costs
+- **QA time:** [**TBD**]
+- **Error rework:** [**TBD**]
+- **On-site delays:** [**TBD**]
+- **Total:** [**TO BE CALCULATED**]
 
-**Our Tool Saves:**
-- Preliminary quotes: 4-8 hours → 5 minutes (99% time reduction)
-- Internal QA: 2-4 hours → 10 minutes (95% time reduction)
-- Error rework: 50% reduction (catch before KLH)
-- **Annual savings: €25,000-80,000 per manufacturer**
+**Our Tool Could Save (Estimated):**
+- Preliminary quotes: 4-8 hours → 5 minutes (99% time reduction) ✅ CONFIRMED
+- Geometric clash detection: [**MANUAL TIME TBD**] → 2 minutes (automated)
+- Metadata validation: [**MANUAL TIME TBD**] → 30 seconds (automated)
+- KLH rework cycles: [**CURRENT RATE TBD**] → 50-80% reduction (estimated)
+- On-site error rate: [**CURRENT RATE TBD**] → 50-80% reduction (estimated)
+- **Annual savings:** [**TO BE CALCULATED AFTER DATA COLLECTION**]
+
+---
+
+## ❓ Questions for CLT-Denmark (Data Collection Needed)
+
+### Internal QA Process
+
+**Workflow & Timing:**
+1. When exactly does internal QA happen in the workflow?
+   - After HSBcad design is complete?
+   - Before sending to external architect/engineer review?
+   - Before sending to KLH?
+   - Multiple times throughout?
+
+2. Who performs the internal QA?
+   - The same person who did the HSBcad design?
+   - A different team member?
+   - Is it standardized or ad-hoc?
+
+3. What is the formal checklist for internal QA?
+   - Is there a written checklist or just experience-based?
+   - What specific items are checked?
+
+**Time Investment:**
+4. How long does internal QA take per project?
+   - For a small project (50-100 elements)?
+   - For a medium project (200-400 elements)?
+   - For a large project (500+ elements)?
+
+5. How is this time split?
+   - Geometric clash detection: [**TIME**]
+   - Metadata validation: [**TIME**]
+   - Other checks: [**TIME**]
+
+**Error Rates:**
+6. What percentage of projects have errors found during internal QA?
+   - All projects have small issues?
+   - ~50% have issues?
+   - Only occasionally?
+
+7. What are the most common errors found?
+   - Geometric clashes (frequency?)
+   - Position number issues (frequency?)
+   - Surface quality errors (frequency?)
+   - Wrong classifications (frequency?)
+   - Size constraint violations (frequency?)
+   - Other (what?)
+
+### KLH Interaction & Rework
+
+**Process:**
+8. What exactly does KLH do when they receive your IFC?
+   - What software do they use?
+   - What checks do they perform (automated vs manual)?
+   - How long does it typically take them to review?
+
+9. How often does KLH send back models with errors?
+   - Most projects (~80%)?
+   - About half (~50%)?
+   - Occasionally (~20%)?
+   - Rarely (~10%)?
+
+**Rework Cycle:**
+10. When KLH finds an error, what happens?
+    - They email you describing the issue?
+    - Do they provide screenshots/3D views?
+    - Do they suggest fixes or just report problems?
+
+11. How long does a typical rework cycle take?
+    - Time to understand KLH's feedback: [**TIME**]
+    - Time to redesign/fix in HSBcad: [**TIME**]
+    - Time to re-export and resend: [**TIME**]
+    - Total cycle time: [**TIME**]
+
+12. How many rework cycles per project on average?
+    - First submission: [**% that pass**]
+    - Second submission: [**% that pass**]
+    - Three or more cycles: [**% of projects**]
+
+**Cost Impact:**
+13. What does a rework cycle cost?
+    - Engineering time: [**HOURS**] @ [**RATE**]
+    - Project delay: [**DAYS**]
+    - Impact on other projects: [**DESCRIPTION**]
+
+### On-Site Errors
+
+**Frequency:**
+14. How often do errors make it to the construction site?
+    - Position number issues: [**FREQUENCY**]
+    - Wrong surface quality: [**FREQUENCY**]
+    - Geometric issues: [**FREQUENCY**]
+    - Other: [**FREQUENCY**]
+
+**Impact:**
+15. What happens when position numbers are wrong on-site?
+    - How much time does it take to identify elements?
+    - How many workers are affected?
+    - What's the cost per day of delay?
+
+16. What happens when surface quality is on the wrong side?
+    - Can it be fixed on-site (flipping)?
+    - Does the element need to be reordered?
+    - What's the cost (material + delay)?
+    - Real example: How much did this cost in a recent project?
+
+17. What's the most expensive on-site error you've had?
+    - What was the error?
+    - What did it cost to fix?
+    - How long was the delay?
+
+### Multi-Disciplinary Coordination
+
+**Current Process:**
+18. Do you check MEP and electrical models against your CLT model?
+    - If yes: When? How? What tool? Who does it?
+    - If no: Who is responsible for these clashes?
+
+19. Do you receive MEP/electrical IFC files from consultants?
+    - For what percentage of projects?
+    - When in the process?
+
+20. Have you had MEP clashes discovered on-site?
+    - How often?
+    - Examples?
+    - Who pays to fix them?
+
+### Project Volume & Types
+
+**Baseline Data:**
+21. How many projects do you process per year?
+    - Preliminary quotes: [**NUMBER**]
+    - Projects that convert to contract: [**NUMBER**]
+    - Projects sent to KLH: [**NUMBER**]
+
+22. What's the typical project size distribution?
+    - Small (50-150 elements): [**% of projects**]
+    - Medium (150-400 elements): [**% of projects**]
+    - Large (400-700 elements): [**% of projects**]
+    - Extra large (700+ elements): [**% of projects**]
+
+23. What's the hourly rate for engineering time?
+    - Junior designer: [**RATE**]
+    - Senior designer: [**RATE**]
+    - Average across team: [**RATE**]
+
+    add here another section for clarification on what kind of client are they dealing with most frequently, like b2b or b2c
+
+### Desired Features (Prioritization)
+
+**Feature Value Ranking:**
+24. If you could only have ONE feature, which would provide the most value?
+    - A. Automated preliminary quotes
+    - B. Geometric clash detection
+    - C. Metadata validation
+    - D. KLH-ready certification
+    - E. Multi-disciplinary coordination
+
+25. Rank these features by value (1 = highest, 5 = lowest):
+    - Preliminary quote generation: [**RANK**]
+    - Geometric clash detection (CLT + glulam): [**RANK**]
+    - Metadata validation (position, surface, etc.): [**RANK**]
+    - Pre-KLH comprehensive QA: [**RANK**]
+    - Multi-discipline clash detection: [**RANK**]
+    - Version history & comparison: [**RANK**]
+    - Automated quantity takeoff: [**RANK**]
+
+### Validation Rules
+
+**Manufacturing Constraints:**
+26. What are the exact size constraints for CLT panels?
+    - Maximum width: [**VALUE**]
+    - Maximum length: [**VALUE**]
+    - Maximum thickness: [**VALUE**]
+    - Minimum dimensions: [**VALUES**]
+
+27. What are the valid panel build-up configurations?
+    - List all valid combinations: [**LIST**]
+    - Most common configurations: [**LIST**]
+
+28. What are the surface quality standards?
+    - Types available: [**LIST**]
+    - Cost difference between grades: [**DATA**]
+    - When can/can't elements be flipped: [**RULES**]
+
+29. What are the position numbering rules?
+    - Format/pattern: [**DESCRIPTION**]
+    - What makes a "good" vs "bad" numbering system?
+    - Can you provide examples of problematic numbering?
+
+30. What other validation rules should the system check?
+    - [**LIST ALL CRITICAL CHECKS**]
 
 ---
 
@@ -347,7 +600,7 @@ An automated validation and quotation platform that integrates directly into exi
 
 ### Secondary Market (Future)
 
-**Architects & Engineers:**
+**Architects, Engineers & Contractors:**
 - Early validation before sending to manufacturer
 - Design optimization based on manufacturability
 - Cost estimation during design phase
@@ -396,7 +649,7 @@ An automated validation and quotation platform that integrates directly into exi
    - Weaknesses: No validation, no quotation, focused on 2D drawings
    - Our advantage: 3D validation, automated checks, pricing integration
 
-3. **Excel Spreadsheets**
+3. **Excel Spreads heets**
    - Strengths: Familiar, flexible
    - Weaknesses: Manual, error-prone, not connected to model, no version control
    - Our advantage: Automated, accurate, model-connected, full history
@@ -587,7 +840,6 @@ An automated validation and quotation platform that integrates directly into exi
 - ✅ Basic validation checks (geometrical, data, CLT-specific)
 - ✅ Model analysis reports
 - ✅ Quote generation
-- ✅ Project management
 - ⏳ IFC file upload (drag & drop)
 - ⏳ Speckle URL import
 - ⏳ Multiple models per project (architect + MEP + electrical)
@@ -1095,8 +1347,14 @@ An automated validation and quotation platform that integrates directly into exi
 ---
 
 **Document Owner:** Filip Spirovski  
-**Last Review:** January 2025  
-**Next Review:** February 2025  
+**Last Review:** January 17, 2025  
+**Next Review:** After CLT-Denmark Data Collection Session  
+
+**Recent Changes:**
+- Clarified and separated pain points (geometric clashes vs metadata validation)
+- Added comprehensive questions for CLT-Denmark data collection
+- Marked all estimates as "TBD" pending validation
+- Updated workflow to reflect actual KLH process
 
 **Confidential:** This document contains proprietary business strategy. Do not distribute outside core team without approval.
 
